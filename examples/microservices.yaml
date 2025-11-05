@@ -1,0 +1,43 @@
+# Microservices Example
+# Multiple services with setup commands and restart logic
+
+setupCommands:
+  - name: db-init
+    cmd: echo
+    args: ["Initializing database..."]
+
+  - name: cache-init
+    cmd: echo
+    args: ["Starting cache server..."]
+    startAfter: "500ms"
+
+commands:
+  - name: auth-service
+    cmd: bash
+    args: ["examples/scripts/server-sim.sh", "AuthService", "8001", "90"]
+    restartTries: -1
+    restartAfter: "2s"
+    env:
+      SERVICE_PORT: "8001"
+
+  - name: api-gateway
+    cmd: bash
+    args: ["examples/scripts/server-sim.sh", "APIGateway", "8000", "90"]
+    restartTries: -1
+    restartAfter: "2s"
+    startAfter: "3s"
+    env:
+      SERVICE_PORT: "8000"
+      AUTH_URL: "http://localhost:8001"
+
+  - name: user-service
+    cmd: bash
+    args: ["examples/scripts/server-sim.sh", "UserService", "8002", "90"]
+    restartTries: -1
+    restartAfter: "2s"
+    startAfter: "2s"
+    env:
+      SERVICE_PORT: "8002"
+
+killOthers: true
+noColors: false

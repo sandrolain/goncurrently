@@ -1,0 +1,16 @@
+# Watch and Build Example
+# Simulates file watching and building processes
+
+commands:
+  - name: watcher
+    cmd: bash
+    args: ["examples/scripts/watcher-sim.sh", "src"]
+
+  - name: dev-server
+    cmd: bash
+    args: ["examples/scripts/server-sim.sh", "DevServer", "3000", "120"]
+    restartTries: -1
+    restartAfter: "1s"
+    startAfter: "2s"
+
+noColors: false

@@ -1,0 +1,21 @@
+# Timeouts and Delays Example
+# Demonstrates duration limits and startup delays
+
+commands:
+  - name: quick-task
+    cmd: bash
+    args: ["examples/scripts/counter.sh", "3", "1"]
+    duration: "5s"
+
+  - name: delayed-task
+    cmd: bash
+    args: ["examples/scripts/counter.sh", "5", "1"]
+    startAfter: "2s"
+
+  - name: long-task
+    cmd: bash
+    args: ["examples/scripts/counter.sh", "20", "1"]
+    duration: "10s"
+    startAfter: "1s"
+
+noColors: false

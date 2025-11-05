@@ -1,0 +1,22 @@
+# TUI Example
+# Demonstrates the Terminal User Interface mode
+
+commands:
+  - name: counter-1
+    cmd: bash
+    args: ["examples/scripts/counter.sh", "10", "1"]
+
+  - name: counter-2
+    cmd: bash
+    args: ["examples/scripts/counter.sh", "8", "1.5"]
+
+  - name: counter-3
+    cmd: bash
+    args: ["examples/scripts/counter.sh", "12", "0.8"]
+
+  - name: server
+    cmd: bash
+    args: ["examples/scripts/server-sim.sh", "Server", "8080", "15"]
+
+enableTUI: true
+noColors: false

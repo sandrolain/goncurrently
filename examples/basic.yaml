@@ -1,0 +1,18 @@
+# Basic Example
+# Runs three simple echo commands concurrently
+
+commands:
+  - name: greeter-1
+    cmd: echo
+    args: ["Hello from command 1!"]
+
+  - name: greeter-2
+    cmd: echo
+    args: ["Hello from command 2!"]
+
+  - name: greeter-3
+    cmd: echo
+    args: ["Hello from command 3!"]
+
+# Disable colored output for simplicity
+noColors: false

@@ -1,0 +1,20 @@
+# Kill Others Example
+# Demonstrates killOthers behavior - all processes stop when one exits
+
+commands:
+  - name: short-task
+    cmd: bash
+    args: ["examples/scripts/counter.sh", "3", "1"]
+
+  - name: long-task-1
+    cmd: bash
+    args: ["examples/scripts/counter.sh", "20", "1"]
+
+  - name: long-task-2
+    cmd: bash
+    args: ["examples/scripts/counter.sh", "25", "1"]
+
+# When short-task completes, all other tasks will be stopped
+killOthers: true
+killTimeout: 2000
+noColors: false

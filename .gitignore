@@ -1,0 +1,13 @@
+.vscode/
+.idea/
+.DS_Store
+node_modules/
+goncurrently
+coverage.out
+*.test
+context/
+goncurrently
+coverage.out
+coverage.html
+licenses.csv
+trivy-results.json

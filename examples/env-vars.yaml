@@ -1,0 +1,29 @@
+# Environment Variables Example
+# Shows how to set custom environment variables per command
+
+commands:
+  - name: env-printer-1
+    cmd: bash
+    args: ["-c", 'echo "App: $APP_NAME, Env: $APP_ENV, Port: $PORT"']
+    env:
+      APP_NAME: "MyApp"
+      APP_ENV: "development"
+      PORT: "3000"
+
+  - name: env-printer-2
+    cmd: bash
+    args: ["-c", 'echo "App: $APP_NAME, Env: $APP_ENV, Port: $PORT"']
+    env:
+      APP_NAME: "MyAPI"
+      APP_ENV: "staging"
+      PORT: "8080"
+
+  - name: env-printer-3
+    cmd: bash
+    args: ["-c", 'echo "Database: $DB_HOST:$DB_PORT, User: $DB_USER"']
+    env:
+      DB_HOST: "localhost"
+      DB_PORT: "5432"
+      DB_USER: "admin"
+
+noColors: false

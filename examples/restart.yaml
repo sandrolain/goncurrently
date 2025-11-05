@@ -1,0 +1,15 @@
+# Restart Example
+# Demonstrates automatic restart behavior with retry logic
+
+commands:
+  - name: unreliable-service
+    cmd: bash
+    args: ["examples/scripts/random-fail.sh", "70"]
+    restartTries: 5
+    restartAfter: "2s"
+
+  - name: stable-service
+    cmd: bash
+    args: ["examples/scripts/counter.sh", "10", "1"]
+
+noColors: false

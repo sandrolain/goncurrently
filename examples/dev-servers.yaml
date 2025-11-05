@@ -1,0 +1,25 @@
+# Development Servers Example
+# Simulates frontend and backend development servers
+
+commands:
+  - name: frontend
+    cmd: bash
+    args: ["examples/scripts/server-sim.sh", "Frontend", "3000", "60"]
+    restartTries: -1
+    restartAfter: "2s"
+    env:
+      PORT: "3000"
+      NODE_ENV: "development"
+
+  - name: backend
+    cmd: bash
+    args: ["examples/scripts/server-sim.sh", "Backend", "8080", "60"]
+    restartTries: -1
+    restartAfter: "2s"
+    startAfter: "1s"
+    env:
+      PORT: "8080"
+      LOG_LEVEL: "debug"
+
+killOthers: true
+noColors: false
