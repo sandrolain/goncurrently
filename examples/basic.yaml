@@ -1,18 +1,18 @@
 # Basic Example
-# Runs three simple echo commands concurrently
+# Runs simple commands that show colored output
 
 commands:
-  - name: greeter-1
-    cmd: echo
-    args: ["Hello from command 1!"]
+  - name: counter-1
+    cmd: bash
+    args: ["-c", 'for i in 1 2 3; do echo "Counter 1: $i"; sleep 0.5; done']
 
-  - name: greeter-2
-    cmd: echo
-    args: ["Hello from command 2!"]
+  - name: counter-2
+    cmd: bash
+    args: ["-c", 'for i in A B C; do echo "Counter 2: $i"; sleep 0.5; done']
 
-  - name: greeter-3
-    cmd: echo
-    args: ["Hello from command 3!"]
+  - name: counter-3
+    cmd: bash
+    args: ["-c", 'for i in X Y Z; do echo "Counter 3: $i"; sleep 0.5; done']
 
-# Disable colored output for simplicity
+# Show colored output
 noColors: false

@@ -2,6 +2,39 @@
 
 A powerful, flexible command-line tool for running multiple commands concurrently in Go. Perfect for development workflows, build processes, and managing multiple services.
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/sandrolain/goncurrently)](https://goreportcard.com/report/github.com/sandrolain/goncurrently)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+## Demo
+
+### Terminal User Interface (TUI) Mode
+
+![TUI Mode Demo](tapes/tui-example.gif)
+
+The TUI mode provides a beautiful terminal interface with split panels for each command, showing real-time output and status.
+
+### Microservices Architecture
+
+![Microservices Demo](tapes/microservices.gif)
+
+Run multiple services concurrently with setup commands, auto-restart, and graceful shutdown.
+
+### Development Servers
+
+![Dev Servers Demo](tapes/dev-servers.gif)
+
+Perfect for running multiple development servers (frontend, backend, watchers) with colored output and auto-restart on failure.
+
+### Basic Concurrent Execution
+
+![Basic Demo](tapes/basic.gif)
+
+Simple concurrent command execution with color-coded output for easy identification.
+
+---
+
+See the [`tapes/`](tapes/) directory for VHS tape files used to generate these demos.
+
 ## Features
 
 - 🚀 **Concurrent Execution**: Run multiple commands simultaneously
@@ -33,6 +66,30 @@ cd goncurrently
 go build -o goncurrently .
 ```
 
+### Using Task
+
+This project includes a [Taskfile](https://taskfile.dev) for common operations:
+
+```bash
+# Install Task (if not already installed)
+go install github.com/go-task/task/v3/cmd/task@latest
+
+# Build the application
+task build
+
+# Run tests
+task test
+
+# Run examples
+task run-microservices
+task run-tui
+
+# Generate demo GIFs (requires VHS)
+task vhs-all
+```
+
+See [TASKFILE_GUIDE.md](TASKFILE_GUIDE.md) for all available tasks.
+
 ### Using Go Module
 
 Add to your project:
@@ -42,6 +99,8 @@ go get github.com/sandrolain/goncurrently
 ```
 
 ## Usage
+
+> 💡 **Tip**: Check out the [Demo section](#demo) above to see goncurrently in action with animated examples!
 
 goncurrently reads its configuration from YAML via stdin:
 

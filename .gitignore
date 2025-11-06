@@ -6,8 +6,8 @@ goncurrently
 coverage.out
 *.test
 context/
-goncurrently
-coverage.out
 coverage.html
 licenses.csv
 trivy-results.json
+goncurrently-linux
+.task/
