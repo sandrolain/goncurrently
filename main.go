@@ -9,7 +9,77 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
+// Version is the current version of goncurrently.
+const Version = "v1.2.0"
+
+func printVersion() {
+	fmt.Printf("goncurrently %s\n", Version) //nolint:forbidigo
+}
+
+func printHelp() {
+	help := `goncurrently - Run multiple commands concurrently
+
+Usage:
+  cat config.yaml | goncurrently
+  goncurrently < config.yaml
+  goncurrently --help
+  goncurrently --version
+
+Commands:
+  --help, -h       Show this help message
+  --version, -v    Show version information
+
+Configuration (via YAML on stdin):
+  commands           List of commands to run concurrently (required)
+  setupCommands      Commands to run sequentially before main commands
+  shutdownCommands   Commands to run sequentially after all main commands complete
+  killOthers         Stop all commands if any one exits (default: false)
+  killTimeout        Timeout in milliseconds before force kill (default: 0)
+  noColors           Disable colored output (default: false)
+  enableTUI          Enable terminal UI mode (default: false)
+
+Command Configuration:
+  name               Name of the command (auto-generated if not provided)
+  cmd                Command to execute (required)
+  args               Command arguments
+  restartTries       Number of restart attempts (-1 for unlimited)
+  restartAfter       Delay before restarting (e.g., "1s", "500ms")
+  startAfter         Delay before initial start
+  env                Environment variables (map)
+  silent             Suppress command output (default: false)
+  duration           Maximum execution time
+
+Examples:
+  # Run a simple configuration
+  cat <<EOF | goncurrently
+  commands:
+    - cmd: npm
+      args: ["run", "dev"]
+    - cmd: go
+      args: ["run", "main.go"]
+  EOF
+
+For more information, visit: https://github.com/sandrolain/goncurrently
+`
+	fmt.Print(help) //nolint:forbidigo
+}
+
 func main() {
+	// Handle command-line arguments
+	if len(os.Args) > 1 {
+		switch os.Args[1] {
+		case "--help", "-h", "help":
+			printHelp()
+			return
+		case "--version", "-v", "version":
+			printVersion()
+			return
+		default:
+			fmt.Fprintf(os.Stderr, "Unknown option: %s\nUse --help for usage information.\n", os.Args[1])
+			os.Exit(1)
+		}
+	}
+
 	cfg, err := loadConfig(os.Stdin)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "failed to parse config: %v\n", err)
