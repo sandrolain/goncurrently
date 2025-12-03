@@ -106,6 +106,9 @@ commands:
 setupCommands:
   - cmd: setup
     args: ["init"]
+shutdownCommands:
+  - cmd: cleanup
+    args: ["--all"]
 killOthers: true
 killTimeout: 3000
 noColors: true
@@ -152,6 +155,12 @@ enableTUI: true
 
 	if len(cfg.SetupCommands) != 1 {
 		t.Errorf("expected 1 setup command, got %d", len(cfg.SetupCommands))
+	}
+	if len(cfg.ShutdownCommands) != 1 {
+		t.Errorf("expected 1 shutdown command, got %d", len(cfg.ShutdownCommands))
+	}
+	if cfg.ShutdownCommands[0].Cmd != "cleanup" {
+		t.Errorf("expected shutdown command 'cleanup', got '%s'", cfg.ShutdownCommands[0].Cmd)
 	}
 	if !cfg.KillOthers {
 		t.Error("expected killOthers to be true")

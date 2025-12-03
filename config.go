@@ -25,12 +25,13 @@ type CommandConfig struct {
 
 // Config aggregates the complete execution plan for the tool.
 type Config struct {
-	Commands      []CommandConfig `yaml:"commands" validate:"required,dive,required"`
-	KillOthers    bool            `yaml:"killOthers"`
-	KillTimeout   int             `yaml:"killTimeout"`
-	NoColors      bool            `yaml:"noColors"`
-	SetupCommands []CommandConfig `yaml:"setupCommands"`
-	EnableTUI     bool            `yaml:"enableTUI"`
+	Commands         []CommandConfig `yaml:"commands" validate:"required,dive,required"`
+	KillOthers       bool            `yaml:"killOthers"`
+	KillTimeout      int             `yaml:"killTimeout"`
+	NoColors         bool            `yaml:"noColors"`
+	SetupCommands    []CommandConfig `yaml:"setupCommands"`
+	ShutdownCommands []CommandConfig `yaml:"shutdownCommands"`
+	EnableTUI        bool            `yaml:"enableTUI"`
 }
 
 // loadConfig fully reads configuration data from the provided reader.

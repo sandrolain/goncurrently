@@ -1,0 +1,48 @@
+# Shutdown Commands Example
+# Demonstrates shutdown commands that run after all main commands complete
+# Useful for cleanup tasks, stopping background services, or resource deallocation
+
+setupCommands:
+  - name: init-temp
+    cmd: bash
+    args:
+      [
+        "-c",
+        "echo 'Creating temporary resources...' && mkdir -p /tmp/goncurrently-demo",
+      ]
+
+  - name: start-background
+    cmd: echo
+    args: ["Background service simulation started"]
+    startAfter: "200ms"
+
+commands:
+  - name: worker-1
+    cmd: bash
+    args: ["examples/scripts/counter.sh", "3", "1"]
+
+  - name: worker-2
+    cmd: bash
+    args: ["examples/scripts/counter.sh", "4", "1"]
+    startAfter: "500ms"
+
+shutdownCommands:
+  - name: cleanup-temp
+    cmd: bash
+    args:
+      [
+        "-c",
+        "echo 'Cleaning up temporary resources...' && rm -rf /tmp/goncurrently-demo",
+      ]
+
+  - name: stop-background
+    cmd: echo
+    args: ["Background service simulation stopped"]
+    startAfter: "200ms"
+
+  - name: final-report
+    cmd: bash
+    args: ["-c", "echo 'All shutdown tasks completed successfully!'"]
+    startAfter: "100ms"
+
+noColors: false

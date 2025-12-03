@@ -21,6 +21,7 @@ go build -o goncurrently .
 | **Env Vars** | Environment variables | `./examples/run-env-vars.sh` | Custom env per command |
 | **Kill Others** | Stop all on exit | `./examples/run-kill-others.sh` | killOthers behavior |
 | **Restart** | Auto-restart on failure | `./examples/run-restart.sh` | Retry logic |
+| **Shutdown** | Cleanup after completion | `./examples/run-shutdown.sh` | Shutdown commands |
 
 ## Direct YAML Usage
 

@@ -79,3 +79,85 @@ func TestRunSetupSequence(t *testing.T) {
 		})
 	}
 }
+
+func TestRunShutdownSequence(t *testing.T) {
+	// Save original errorOutput
+	origErrorOutput := errorOutput
+	defer func() {
+		errorOutput = origErrorOutput
+	}()
+
+	var buf bytes.Buffer
+	errorOutput = &buf
+
+	tests := []struct {
+		name     string
+		commands []CommandConfig
+	}{
+		{
+			name:     "empty shutdown commands",
+			commands: []CommandConfig{},
+		},
+		{
+			name: "single successful command",
+			commands: []CommandConfig{
+				{
+					Name: "cleanup",
+					Cmd:  "echo",
+					Args: []string{"cleaning up"},
+				},
+			},
+		},
+		{
+			name: "multiple commands",
+			commands: []CommandConfig{
+				{
+					Name: "cleanup-db",
+					Cmd:  "echo",
+					Args: []string{"cleaning database"},
+				},
+				{
+					Name: "cleanup-cache",
+					Cmd:  "echo",
+					Args: []string{"cleaning cache"},
+				},
+			},
+		},
+		{
+			name: "command with start delay",
+			commands: []CommandConfig{
+				{
+					Name:       "delayed-cleanup",
+					Cmd:        "echo",
+					Args:       []string{"delayed cleanup"},
+					StartAfter: "10ms",
+				},
+			},
+		},
+		{
+			name: "failing command continues to next",
+			commands: []CommandConfig{
+				{
+					Name: "fail-cmd",
+					Cmd:  "false",
+				},
+				{
+					Name: "success-cmd",
+					Cmd:  "echo",
+					Args: []string{"this should run"},
+				},
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			buf.Reset()
+			colors := defaultCommandColors()
+			router := &consoleRouter{}
+
+			// runShutdownSequence should not panic or exit on failures
+			runShutdownSequence(tt.commands, colors, router)
+		})
+	}
+}

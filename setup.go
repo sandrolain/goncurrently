@@ -25,3 +25,25 @@ func runSetupSequence(cmds []CommandConfig, colors []*color.Color, sink outputRo
 		baseLog("[setup:%s] completed", c.Name)
 	}
 }
+
+// runShutdownSequence executes shutdown commands sequentially.
+// Unlike setup commands, shutdown commands do not terminate the process on failure
+// but log errors and continue with the remaining commands.
+func runShutdownSequence(cmds []CommandConfig, colors []*color.Color, sink outputRouter) {
+	for i, c := range cmds {
+		col := colors[i%len(colors)]
+		identifier := fmt.Sprintf("[shutdown:%s] ", c.Name)
+		stdoutWriter := sink.LineWriter(basePanelName, col, identifier)
+		stderrWriter := sink.LineWriter(basePanelName, col, fmt.Sprintf("[shutdown:%s stderr] ", c.Name))
+		if d := mustParseDurationField("startAfter", c.StartAfter, c.Name); d > 0 {
+			time.Sleep(d)
+		}
+		baseLog("[shutdown:%s] starting", c.Name)
+		if !runSetupWithRetries(c, identifier, stdoutWriter, stderrWriter) {
+			color.New(color.FgYellow, color.Bold).Fprintf(errorOutput, "Shutdown command '%s' failed after retries\n", c.Name) //nolint:errcheck
+			// Continue with remaining shutdown commands instead of exiting
+			continue
+		}
+		baseLog("[shutdown:%s] completed", c.Name)
+	}
+}

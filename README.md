@@ -141,6 +141,16 @@ commands:
     cmd: ./cleanup.sh
     duration: "5m"  # Auto-stop after 5 minutes
 
+# Shutdown commands run sequentially after all main commands complete
+shutdownCommands:
+  - name: stop-services
+    cmd: docker
+    args: ["compose", "down"]
+
+  - name: cleanup-temp
+    cmd: rm
+    args: ["-rf", "/tmp/app-cache"]
+
 # Global settings
 killOthers: true      # Stop all commands if one exits
 killTimeout: 5000     # Wait 5s before force-killing (milliseconds)
@@ -170,6 +180,7 @@ enableTUI: false      # Enable terminal UI mode
 |-------|------|-------------|---------|
 | `commands` | []CommandConfig | **Required**. Commands to run concurrently | - |
 | `setupCommands` | []CommandConfig | Commands to run sequentially before main commands | `[]` |
+| `shutdownCommands` | []CommandConfig | Commands to run sequentially after all main commands complete | `[]` |
 | `killOthers` | bool | Stop all commands if any one exits | `false` |
 | `killTimeout` | int | Timeout in milliseconds before force kill | `0` |
 | `noColors` | bool | Disable colored output | `false` |

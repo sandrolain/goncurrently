@@ -18,9 +18,10 @@ echo "6) Timeouts - Duration limits and delays"
 echo "7) Environment Variables - Custom env vars"
 echo "8) Kill Others - Stop all when one exits"
 echo "9) Restart - Auto-restart on failure"
+echo "10) Shutdown - Cleanup commands after completion"
 echo "0) Exit"
 echo ""
-read -p "Enter choice [0-9]: " choice
+read -p "Enter choice [0-10]: " choice
 
 case $choice in
   1)
@@ -58,6 +59,10 @@ case $choice in
   9)
     echo "Running: Restart"
     cat examples/restart.yaml | ./goncurrently
+    ;;
+  10)
+    echo "Running: Shutdown Commands"
+    cat examples/shutdown.yaml | ./goncurrently
     ;;
   0)
     echo "Exiting..."

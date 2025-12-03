@@ -90,6 +90,22 @@ Example demonstrating the killOthers behavior.
 cat examples/kill-others.yaml | goncurrently
 ```
 
+### 9. Restart (`restart.yaml`)
+
+Example demonstrating automatic restart on failure.
+
+```bash
+cat examples/restart.yaml | goncurrently
+```
+
+### 10. Shutdown Commands (`shutdown.yaml`)
+
+Example demonstrating cleanup commands that run after all main commands complete.
+
+```bash
+cat examples/shutdown.yaml | goncurrently
+```
+
 ## Helper Scripts
 
 The `scripts/` subdirectory contains helper scripts used by the examples:

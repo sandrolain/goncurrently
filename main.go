@@ -19,6 +19,7 @@ func main() {
 	color.NoColor = cfg.NoColors
 	assignNames(cfg.Commands)
 	assignNames(cfg.SetupCommands)
+	assignNames(cfg.ShutdownCommands)
 
 	validate := validator.New()
 	if err := validate.Struct(cfg); err != nil {
@@ -37,7 +38,7 @@ func main() {
 	defer router.Stop()
 
 	errorOutput = router.BaseWriter()
-	baseLog("Initialized goncurrently | commands=%d setup=%d killOthers=%t", len(cfg.Commands), len(cfg.SetupCommands), cfg.KillOthers)
+	baseLog("Initialized goncurrently | commands=%d setup=%d shutdown=%d killOthers=%t", len(cfg.Commands), len(cfg.SetupCommands), len(cfg.ShutdownCommands), cfg.KillOthers)
 
 	termination := newTerminationManager(func(sig os.Signal, immediate bool) {
 		if immediate {
@@ -74,4 +75,10 @@ func main() {
 	}
 
 	router.Wait()
+
+	if len(cfg.ShutdownCommands) > 0 {
+		baseLog("Running shutdown commands...")
+		runShutdownSequence(cfg.ShutdownCommands, colors, router)
+		baseLog("Shutdown phase completed")
+	}
 }
